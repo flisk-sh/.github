@@ -65,30 +65,41 @@ tdk up shop                                            # run it with hot reload
 | Needs a cluster | No | Yes | Optional | **No** |
 | Start one stack of a large system | ⚠️ | ⚠️ | ⚠️ | ✅ `tdk up <stack>` |
 
-<p><small>Fixture benchmark only: a generated <code>/health</code> fixture with 100 services, all healthy in 112 s, 1.6 GiB total memory, 0 OOM kills on a 16 GB machine. This is a scale fixture, not the TDK CLI product example. <a href="https://github.com/tdk-landscape/tdk-cli-core/blob/main/docs/scale-bench.md">See the benchmark →</a></small></p>
+<p><small>Fixture benchmark only: a generated <code>/health</code> fixture with 100 services, all healthy in 112 s, 1.6 GiB total memory, 0 OOM kills on a 16 GB machine. This is a scale fixture, not the TDK CLI product example. <a href="https://github.com/tdk-landscape/tdk-cli-core/blob/main/docs/benchmarks/scale-bench.md">See the benchmark →</a></small></p>
 
 ## Repositories
 
+### Start here
+
 | Repo | What it is |
 | --- | --- |
-| ⭐ [**tdk-cli-core**](https://github.com/tdk-landscape/tdk-cli-core) | TDK CLI starts your services on your laptop. Not a deploy, not a Compose file. One `service.json`, then `tdk up`. No Kubernetes. |
-| [tdk-example](https://github.com/tdk-landscape/tdk-example) | Smallest TDK CLI example: two stacks, four services, started locally. |
-| [tdk-saas-starter](https://github.com/tdk-landscape/tdk-saas-starter) | TDK CLI example: local SaaS dashboard and a checkout button. Not a billing deploy. |
-| [tdk-restaurant-example](https://github.com/tdk-landscape/tdk-restaurant-example) | TDK CLI example: reservations, kitchen, menu, and floor, started locally. |
-| [tdk-user-management](https://github.com/tdk-landscape/tdk-user-management) | TDK CLI example: identity admin, portal, and compliance stacks on your laptop. Not a hosted IdP. |
-| [tdk-erp-system](https://github.com/tdk-landscape/tdk-erp-system) | Scale fixture for TDK CLI: 100 generated health services. Not an ERP product. |
-| [tdk-docker-compose-example](https://github.com/tdk-landscape/tdk-docker-compose-example) | Run the TDK CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
-| [tdk-auth-queue-email-example](https://github.com/tdk-landscape/tdk-auth-queue-email-example) | TDK CLI example: local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
-| [tdk-ecommerce-example](https://github.com/tdk-landscape/tdk-ecommerce-example) | TDK CLI example: Vue 3 storefront and a Hono catalog API on your laptop. |
+| ⭐ [**tdk-cli-core**](https://github.com/tdk-landscape/tdk-cli-core) | The CLI. Starts your services on your laptop from one `service.json`, then `tdk up`. Not a deploy, not a Compose file. No Kubernetes. |
+| [tdk-website](https://github.com/tdk-landscape/tdk-website) | Docs for TDK CLI. Start services locally. Not a deploy tool. |
+| [tdk-landscape.github.io](https://github.com/tdk-landscape/tdk-landscape.github.io) | Install script for TDK CLI, then `tdk up`. |
 | [create-tdk-stack](https://github.com/tdk-landscape/create-tdk-stack) | Landing page to start a TDK CLI project. Same commands as the quickstart. |
 | [tdk-cli-releases](https://github.com/tdk-landscape/tdk-cli-releases) | Prebuilt TDK CLI binaries for Linux and macOS, with checksums. |
-| [tdk-website](https://github.com/tdk-landscape/tdk-website) | Docs for TDK CLI. Start services locally. Not a deploy tool. |
-| [tdk-landscape.github.io](https://github.com/tdk-landscape/tdk-landscape.github.io) | Install TDK CLI. One script, then `tdk up`. |
-| [tdk-labs](https://github.com/tdk-landscape/tdk-labs) | Lessons for TDK CLI. Each lesson starts a local stack. |
 | [tdk-demo-animation](https://github.com/tdk-landscape/tdk-demo-animation) | Recorded walkthrough: install TDK CLI, generate a service, open the local health URL. |
+
+### Examples
+
+| Repo | What it is |
+| --- | --- |
+| [tdk-example](https://github.com/tdk-landscape/tdk-example) | Smallest TDK CLI example: two stacks, four services, started locally. |
+| [tdk-saas-starter](https://github.com/tdk-landscape/tdk-saas-starter) | Local SaaS dashboard and a checkout button. Not a billing deploy. |
+| [tdk-restaurant-example](https://github.com/tdk-landscape/tdk-restaurant-example) | Reservations, kitchen, menu, and floor, started locally. |
+| [tdk-user-management](https://github.com/tdk-landscape/tdk-user-management) | Identity admin, portal, and compliance stacks on your laptop. Not a hosted IdP. |
+| [tdk-ecommerce-example](https://github.com/tdk-landscape/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your laptop. |
+| [tdk-auth-queue-email-example](https://github.com/tdk-landscape/tdk-auth-queue-email-example) | Local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
+| [tdk-docker-compose-example](https://github.com/tdk-landscape/tdk-docker-compose-example) | Run the TDK CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
+| [tdk-erp-system](https://github.com/tdk-landscape/tdk-erp-system) | Scale fixture: 100 generated health services. Not an ERP product. |
+| [tdk-labs](https://github.com/tdk-landscape/tdk-labs) | Lessons for TDK CLI. Each lesson starts a local stack. |
+
+### Ecosystem
+
+| Repo | What it is |
+| --- | --- |
 | [awesome-tdk-framework](https://github.com/tdk-landscape/awesome-tdk-framework) | Curated links for TDK CLI examples and docs. Not a runtime. |
-| [tdk-skills](https://github.com/tdk-landscape/tdk-skills) | Agent skills for the TDK CLI service.json contract. Agents run `tdk up` locally. |
-| [tdk-discovery](https://github.com/tdk-landscape/tdk-discovery) | Archived. Discovery lives in tdk-cli-core. Do not open issues here. |
+| [tdk-skills](https://github.com/tdk-landscape/tdk-skills) | Agent skills for the `service.json` contract. Agents run `tdk up` locally. |
 
 ## How it works
 
