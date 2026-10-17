@@ -2,14 +2,14 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:0A0A0E,45:34244F,100:EE924E&text=TDK%20CLI&fontColor=F7EFE2&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20laptop.&descAlignY=58&descSize=18">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:F7EFE2,45:D8D0FF,100:EE924E&text=TDK%20CLI&fontColor=0A0A0E&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20laptop.&descAlignY=58&descSize=18" alt="TDK CLI. Start services on your laptop." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:0A0A0E,45:34244F,100:EE924E&text=TDK%20CLI&fontColor=F7EFE2&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20machine.&descAlignY=58&descSize=18">
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:F7EFE2,45:D8D0FF,100:EE924E&text=TDK%20CLI&fontColor=0A0A0E&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20machine.&descAlignY=58&descSize=18" alt="TDK CLI. Start services on your machine." width="100%">
 </picture>
 
-<h3>Start your services on your laptop.</h3>
+<h3>Start your services on your machine.</h3>
 
 <p>
-TDK CLI starts microservices on your laptop. Not a deploy tool, not a Compose file. Production stays on Helm.
+TDK CLI runs your multi-service stack on your machine with one command. Define each service once in `service.json`, then run `tdk up`. No Kubernetes, no Compose file to maintain. Production stays on Helm.
 </p>
 
 <p>
@@ -73,7 +73,7 @@ tdk up shop                                            # run it with hot reload
 
 | Repo | What it is |
 | --- | --- |
-| ⭐ [**tdk-cli-core**](https://github.com/tdk-landscape/tdk-cli-core) | The CLI. Starts your services on your laptop from one `service.json`, then `tdk up`. Not a deploy, not a Compose file. No Kubernetes. |
+| ⭐ [**tdk-cli-core**](https://github.com/tdk-landscape/tdk-cli-core) | The CLI. Starts your services on your machine from one `service.json`, then `tdk up`. Not a deploy, not a Compose file. No Kubernetes. |
 | [tdk-website](https://github.com/tdk-landscape/tdk-website) | Docs for TDK CLI. Start services locally. Not a deploy tool. |
 | [tdk-landscape.github.io](https://github.com/tdk-landscape/tdk-landscape.github.io) | Install script for TDK CLI, then `tdk up`. |
 | [create-tdk-stack](https://github.com/tdk-landscape/create-tdk-stack) | Landing page to start a TDK CLI project. Same commands as the quickstart. |
@@ -87,8 +87,8 @@ tdk up shop                                            # run it with hot reload
 | [tdk-example](https://github.com/tdk-landscape/tdk-example) | Smallest TDK CLI example: two stacks, four services, started locally. |
 | [tdk-saas-starter](https://github.com/tdk-landscape/tdk-saas-starter) | Local SaaS dashboard and a checkout button. Not a billing deploy. |
 | [tdk-restaurant-example](https://github.com/tdk-landscape/tdk-restaurant-example) | Reservations, kitchen, menu, and floor, started locally. |
-| [tdk-user-management](https://github.com/tdk-landscape/tdk-user-management) | Identity admin, portal, and compliance stacks on your laptop. Not a hosted IdP. |
-| [tdk-ecommerce-example](https://github.com/tdk-landscape/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your laptop. |
+| [tdk-user-management](https://github.com/tdk-landscape/tdk-user-management) | Identity admin, portal, and compliance stacks on your machine. Not a hosted IdP. |
+| [tdk-ecommerce-example](https://github.com/tdk-landscape/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your machine. |
 | [tdk-auth-queue-email-example](https://github.com/tdk-landscape/tdk-auth-queue-email-example) | Local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
 | [tdk-docker-compose-example](https://github.com/tdk-landscape/tdk-docker-compose-example) | Run the TDK CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
 | [tdk-erp-system](https://github.com/tdk-landscape/tdk-erp-system) | Scale fixture: 100 generated health services. Not an ERP product. |
@@ -119,7 +119,7 @@ Issues labeled [`good first issue`](https://github.com/tdk-landscape/tdk-cli-cor
 
 <div align="center">
 
-**TDK CLI — start services on your laptop.**
+**TDK CLI — start services on your machine.**
 
 <a href="https://github.com/tdk-landscape/tdk-cli-core"><img src="https://img.shields.io/badge/Get_started-tdk--cli--core-EE924E?style=for-the-badge&logo=github" alt="Get started with tdk-cli-core"></a>
 
