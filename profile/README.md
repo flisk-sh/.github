@@ -9,7 +9,8 @@
 <h3>Start your services on your machine.</h3>
 
 <p>
-TDK CLI — generate and run your whole tech stack without the setup pain
+TDK CLI — generate and run your whole tech stack without the setup pain.</p>
+<p>
 Go from an empty folder to a running tech stack with one command. Built for agents.
 Define each service once in `service.json`, then run `tdk up`. No Kubernetes, no Compose file to maintain. Production stays on Helm.
 </p>
