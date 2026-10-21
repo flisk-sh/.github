@@ -24,22 +24,22 @@ Use TDK CLI when you are an engineer or tech lead already running several servic
 </p>
 
 <p>
-  <a href="https://github.com/tdk-landscape/tdk-cli-core"><img src="https://img.shields.io/github/stars/tdk-landscape/tdk-cli-core?style=for-the-badge&logo=github&label=Star%20tdk-cli-core&color=EE924E" alt="Star tdk-cli-core on GitHub"></a>
-  <a href="https://www.npmjs.com/package/@tdk-landscape/tdk-cli-core"><img src="https://img.shields.io/npm/v/@tdk-landscape/tdk-cli-core?style=for-the-badge&logo=npm&color=34244F" alt="npm version"></a>
-  <a href="https://github.com/tdk-landscape"><img src="https://img.shields.io/github/followers/tdk-landscape?style=for-the-badge&logo=github&label=Follow&color=D8D0FF&labelColor=0A0A0E" alt="Follow tdk-landscape on GitHub"></a>
-  <a href="https://github.com/tdk-landscape/tdk-cli-core/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tdk-landscape/tdk-cli-core?style=for-the-badge&color=0A0A0E" alt="MIT license"></a>
+  <a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/github/stars/flisk-sh/flisk?style=for-the-badge&logo=github&label=Star%20flisk&color=EE924E" alt="Star flisk on GitHub"></a>
+  <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=34244F" alt="npm version"></a>
+  <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=D8D0FF&labelColor=0A0A0E" alt="Follow flisk-sh on GitHub"></a>
+  <a href="https://github.com/flisk-sh/flisk/blob/main/LICENSE"><img src="https://img.shields.io/github/license/flisk-sh/flisk?style=for-the-badge&color=0A0A0E" alt="MIT license"></a>
 </p>
 
 <p>
-  <a href="https://tdk-landscape.github.io/tdk-website/"><strong>Website</strong></a>
+  <a href="https://flisk.sh/"><strong>Website</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/tdk-landscape/awesome-tdk-framework"><strong>Awesome TDK CLI</strong></a>
+  <a href="https://github.com/flisk-sh/awesome-tdk-framework"><strong>Awesome TDK CLI</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://tdk-landscape.github.io/tdk-website/docs/quickstart/"><strong>Quickstart</strong></a>
+  <a href="https://flisk.sh/docs/quickstart/"><strong>Quickstart</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://tdk-landscape.github.io/tdk-website/docs/examples/"><strong>Examples</strong></a>
+  <a href="https://flisk.sh/docs/examples/"><strong>Examples</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://tdk-landscape.github.io/tdk-demo-animation/"><strong>Demo</strong></a>
+  <a href="https://flisk-sh.github.io/tdk-demo-animation/"><strong>Demo</strong></a>
 </p>
 
 </div>
@@ -49,13 +49,13 @@ Use TDK CLI when you are an engineer or tech lead already running several servic
 ## Try it in 30 seconds
 
 ```sh
-npm install -g @tdk-landscape/tdk-cli-core
+npm install -g @flisk-sh/flisk
 tdk project --yes                                      # set up the project
 tdk resource orders-api --type backend --stack shop    # scaffold a service
 tdk up shop                                            # run it with hot reload
 ```
 
-⭐ **If TDK CLI helps you start your local services, [star tdk-cli-core](https://github.com/tdk-landscape/tdk-cli-core).** Stars help other developers find it.
+⭐ **If TDK CLI helps you start your local services, [star flisk](https://github.com/flisk-sh/flisk).** Stars help other developers find it.
 
 ## Why TDK CLI
 
@@ -68,7 +68,7 @@ tdk up shop                                            # run it with hot reload
 | Needs a cluster | No | Yes | Optional | **No** |
 | Start one stack of a large system | ⚠️ | ⚠️ | ⚠️ | ✅ `tdk up <stack>` |
 
-<p><small>Fixture benchmark only: a generated <code>/health</code> fixture with 100 services, all healthy in 112 s, 1.6 GiB total memory, 0 OOM kills on a 16 GB machine. This is a scale fixture, not the TDK CLI product example. <a href="https://github.com/tdk-landscape/tdk-cli-core/blob/main/docs/benchmarks/scale-bench.md">See the benchmark →</a></small></p>
+<p><small>Fixture benchmark only: a generated <code>/health</code> fixture with 100 services, all healthy in 112 s, 1.6 GiB total memory, 0 OOM kills on a 16 GB machine. This is a scale fixture, not the TDK CLI product example. <a href="https://github.com/flisk-sh/flisk/blob/main/docs/benchmarks/scale-bench.md">See the benchmark →</a></small></p>
 
 ## Repositories
 
@@ -76,33 +76,33 @@ tdk up shop                                            # run it with hot reload
 
 | Repo | What it is |
 | --- | --- |
-| ⭐ [**tdk-cli-core**](https://github.com/tdk-landscape/tdk-cli-core) | The CLI. Starts your services on your machine from one `service.json`, then `tdk up`. Not a deploy, not a Compose file. No Kubernetes. |
-| [tdk-website](https://github.com/tdk-landscape/tdk-website) | Docs for TDK CLI. Start services locally. Not a deploy tool. |
-| [tdk-landscape.github.io](https://github.com/tdk-landscape/tdk-landscape.github.io) | Install script for TDK CLI, then `tdk up`. |
-| [create-tdk-stack](https://github.com/tdk-landscape/create-tdk-stack) | Landing page to start a TDK CLI project. Same commands as the quickstart. |
-| [tdk-cli-releases](https://github.com/tdk-landscape/tdk-cli-releases) | Prebuilt TDK CLI binaries for Linux and macOS, with checksums. |
-| [tdk-demo-animation](https://github.com/tdk-landscape/tdk-demo-animation) | Recorded walkthrough: install TDK CLI, generate a service, open the local health URL. |
+| ⭐ [**flisk**](https://github.com/flisk-sh/flisk) | The CLI. Starts your services on your machine from one `service.json`, then `tdk up`. Not a deploy, not a Compose file. No Kubernetes. |
+| [website](https://github.com/flisk-sh/website) | Docs for TDK CLI. Start services locally. Not a deploy tool. |
+| [flisk-sh.github.io](https://github.com/flisk-sh/flisk-sh.github.io) | Install script for TDK CLI, then `tdk up`. |
+| [create-flisk](https://github.com/flisk-sh/create-flisk) | Landing page to start a TDK CLI project. Same commands as the quickstart. |
+| [releases](https://github.com/flisk-sh/releases) | Prebuilt TDK CLI binaries for Linux and macOS, with checksums. |
+| [tdk-demo-animation](https://github.com/flisk-sh/tdk-demo-animation) | Recorded walkthrough: install TDK CLI, generate a service, open the local health URL. |
 
 ### Examples
 
 | Repo | What it is |
 | --- | --- |
-| [tdk-example](https://github.com/tdk-landscape/tdk-example) | Smallest TDK CLI example: two stacks, four services, started locally. |
-| [tdk-saas-starter](https://github.com/tdk-landscape/tdk-saas-starter) | Local SaaS dashboard and a checkout button. Not a billing deploy. |
-| [tdk-restaurant-example](https://github.com/tdk-landscape/tdk-restaurant-example) | Reservations, kitchen, menu, and floor, started locally. |
-| [tdk-user-management](https://github.com/tdk-landscape/tdk-user-management) | Identity admin, portal, and compliance stacks on your machine. Not a hosted IdP. |
-| [tdk-ecommerce-example](https://github.com/tdk-landscape/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your machine. |
-| [tdk-auth-queue-email-example](https://github.com/tdk-landscape/tdk-auth-queue-email-example) | Local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
-| [tdk-docker-compose-example](https://github.com/tdk-landscape/tdk-docker-compose-example) | Run the TDK CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
-| [tdk-erp-system](https://github.com/tdk-landscape/tdk-erp-system) | Scale fixture: 100 generated health services. Not an ERP product. |
-| [tdk-labs](https://github.com/tdk-landscape/tdk-labs) | Lessons for TDK CLI. Each lesson starts a local stack. |
+| [tdk-example](https://github.com/flisk-sh/tdk-example) | Smallest TDK CLI example: two stacks, four services, started locally. |
+| [tdk-saas-starter](https://github.com/flisk-sh/tdk-saas-starter) | Local SaaS dashboard and a checkout button. Not a billing deploy. |
+| [tdk-restaurant-example](https://github.com/flisk-sh/tdk-restaurant-example) | Reservations, kitchen, menu, and floor, started locally. |
+| [tdk-user-management](https://github.com/flisk-sh/tdk-user-management) | Identity admin, portal, and compliance stacks on your machine. Not a hosted IdP. |
+| [tdk-ecommerce-example](https://github.com/flisk-sh/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your machine. |
+| [tdk-auth-queue-email-example](https://github.com/flisk-sh/tdk-auth-queue-email-example) | Local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
+| [tdk-docker-compose-example](https://github.com/flisk-sh/tdk-docker-compose-example) | Run the TDK CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
+| [tdk-erp-system](https://github.com/flisk-sh/tdk-erp-system) | Scale fixture: 100 generated health services. Not an ERP product. |
+| [tdk-labs](https://github.com/flisk-sh/tdk-labs) | Lessons for TDK CLI. Each lesson starts a local stack. |
 
 ### Ecosystem
 
 | Repo | What it is |
 | --- | --- |
-| [awesome-tdk-framework](https://github.com/tdk-landscape/awesome-tdk-framework) | Curated links for TDK CLI examples and docs. Not a runtime. |
-| [tdk-skills](https://github.com/tdk-landscape/tdk-skills) | Agent skills for the `service.json` contract. Agents run `tdk up` locally. |
+| [awesome-tdk-framework](https://github.com/flisk-sh/awesome-tdk-framework) | Curated links for TDK CLI examples and docs. Not a runtime. |
+| [tdk-skills](https://github.com/flisk-sh/tdk-skills) | Agent skills for the `service.json` contract. Agents run `tdk up` locally. |
 
 ## How it works
 
@@ -118,12 +118,12 @@ Generated files are plain local plumbing you can read, not a hidden platform.
 
 ## Contributing
 
-Issues labeled [`good first issue`](https://github.com/tdk-landscape/tdk-cli-core/labels/good%20first%20issue) are the best place to start. See [CONTRIBUTING.md](https://github.com/tdk-landscape/tdk-cli-core/blob/main/CONTRIBUTING.md). Built something with TDK CLI? [Open an issue](https://github.com/tdk-landscape/tdk-cli-core/issues/new/choose) and we'll add it here.
+Issues labeled [`good first issue`](https://github.com/flisk-sh/flisk/labels/good%20first%20issue) are the best place to start. See [CONTRIBUTING.md](https://github.com/flisk-sh/flisk/blob/main/CONTRIBUTING.md). Built something with TDK CLI? [Open an issue](https://github.com/flisk-sh/flisk/issues/new/choose) and we'll add it here.
 
 <div align="center">
 
 **TDK CLI — start services on your machine.**
 
-<a href="https://github.com/tdk-landscape/tdk-cli-core"><img src="https://img.shields.io/badge/Get_started-tdk--cli--core-EE924E?style=for-the-badge&logo=github" alt="Get started with tdk-cli-core"></a>
+<a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/badge/Get_started-flisk-EE924E?style=for-the-badge&logo=github" alt="Get started with flisk"></a>
 
 </div>
