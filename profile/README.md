@@ -1,6 +1,8 @@
 
 <div align="center">
 
+<a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/weekly?language=Starlark" alt="flisk-sh%2Fflisk | Trendshift" width="250" height="55"/></a>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:0A0A0E,45:34244F,100:EE924E&text=TDK%20CLI&fontColor=F7EFE2&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20machine.&descAlignY=58&descSize=18">
   <img src="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:F7EFE2,45:D8D0FF,100:EE924E&text=TDK%20CLI&fontColor=0A0A0E&fontSize=72&fontAlignY=35&desc=Start%20services%20on%20your%20machine.&descAlignY=58&descSize=18" alt="TDK CLI. Start services on your machine." width="100%">
@@ -40,6 +42,8 @@ Use TDK CLI when you are an engineer or tech lead already running several servic
   <a href="https://flisk.sh/docs/examples/"><strong>Examples</strong></a>
   &nbsp;·&nbsp;
   <a href="https://flisk-sh.github.io/tdk-demo-animation/"><strong>Demo</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/marketplace?query=flisk-sh&amp;type=actions"><strong>GitHub Marketplace</strong></a>
 </p>
 
 </div>
