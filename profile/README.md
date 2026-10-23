@@ -24,9 +24,9 @@ Use Flisk CLI when you are an engineer or tech lead already running several serv
 </p>
 
 <p>
-  <a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/github/stars/flisk-sh/flisk?style=for-the-badge&logo=github&label=Star%20flisk&color=EE924E" alt="Star flisk on GitHub"></a>
-  <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=34244F" alt="npm version"></a>
-  <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=D8D0FF&labelColor=0A0A0E" alt="Follow flisk-sh on GitHub"></a>
+  <a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/github/stars/flisk-sh/flisk?style=for-the-badge&logo=github&label=Star%20flisk&color=22C55E" alt="Star flisk on GitHub"></a>
+  <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=16A34A" alt="npm version"></a>
+  <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=4ADE80&labelColor=0B1620" alt="Follow flisk-sh on GitHub"></a>
   <a href="https://github.com/flisk-sh/flisk/blob/main/LICENSE"><img src="https://img.shields.io/github/license/flisk-sh/flisk?style=for-the-badge&color=0A0A0E" alt="MIT license"></a>
 </p>
 
@@ -138,6 +138,6 @@ Issues labeled [`good first issue`](https://github.com/flisk-sh/flisk/labels/goo
 
 **Flisk CLI — start services on your machine.**
 
-<a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/badge/Get_started-flisk-EE924E?style=for-the-badge&logo=github" alt="Get started with flisk"></a>
+<a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/badge/Get_started-flisk-22C55E?style=for-the-badge&logo=github" alt="Get started with flisk"></a>
 
 </div>
