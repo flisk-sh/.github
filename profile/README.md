@@ -1,26 +1,18 @@
-
 <div align="center">
 
-<a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/daily?language=Starlark" alt="flisk-sh%2Fflisk | Trendshift" width="250" height="55"/></a>
-<a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/weekly?language=Starlark" alt="flisk-sh%2Fflisk | Trendshift" width="250" height="55"/></a>
+<a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/daily?language=Starlark" alt="flisk-sh/flisk | Trendshift daily" width="250" height="55"/></a>
+<a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/weekly?language=Starlark" alt="flisk-sh/flisk | Trendshift weekly" width="250" height="55"/></a>
 
-<img src="https://raw.githubusercontent.com/flisk-sh/.github/main/profile/header-green.svg" alt="Flisk CLI. Start services on your machine." width="100%">
+<img src="https://raw.githubusercontent.com/flisk-sh/.github/main/profile/header-green.svg" alt="Flisk: your whole stack, running locally with one command." width="100%">
 
-<h3>Start your services on your machine.</h3>
+# Your whole stack, running locally. One command.
 
-<p>
-Flisk CLI — generate and run your whole tech stack without the setup pain.</p>
-<p>
-Go from an empty folder to a running tech stack with one command. Built for agents.
-Define each service once in `service.json`, then run `flisk up`. No Kubernetes, no Compose file to maintain. Production stays on Helm.
-</p>
+**Flisk generates the Docker and Tilt config for every service, so you skip the setup week and go straight to building.**
+No Kubernetes. No Compose file to maintain. Built for engineers and AI agents.
 
 <p>
-Docker runs the containers. Tilt runs the dev loop. Flisk CLI writes that config.
-</p>
-
-<p>
-Use Flisk CLI when you are an engineer or tech lead already running several services and are tired of local Compose, Dockerfiles, and a week of setup. If Compose already works for you, skip Flisk CLI.
+  <a href="https://flisk.sh/docs/quickstart/"><img src="https://img.shields.io/badge/Start_in_30_seconds-22C55E?style=for-the-badge" alt="Start in 30 seconds"></a>
+  <a href="https://flisk-sh.github.io/tdk-demo-animation/"><img src="https://img.shields.io/badge/Watch_the_demo-0B1620?style=for-the-badge" alt="Watch the demo"></a>
 </p>
 
 <p>
@@ -28,20 +20,6 @@ Use Flisk CLI when you are an engineer or tech lead already running several serv
   <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=16A34A" alt="npm version"></a>
   <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=4ADE80&labelColor=0B1620" alt="Follow flisk-sh on GitHub"></a>
   <a href="https://github.com/flisk-sh/flisk/blob/main/LICENSE"><img src="https://img.shields.io/github/license/flisk-sh/flisk?style=for-the-badge&color=0B1620" alt="MIT license"></a>
-</p>
-
-<p>
-  <a href="https://flisk.sh/"><strong>Website</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/flisk-sh/awesome-tdk-framework"><strong>Awesome Flisk</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://flisk.sh/docs/quickstart/"><strong>Quickstart</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://flisk.sh/docs/examples/"><strong>Examples</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://flisk-sh.github.io/tdk-demo-animation/"><strong>Demo</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/marketplace?query=flisk-sh&amp;type=actions"><strong>GitHub Marketplace</strong></a>
 </p>
 
 </div>
@@ -57,66 +35,37 @@ flisk resource orders-api --type backend --stack shop --yes    # scaffold a serv
 flisk up shop                                                  # run it with hot reload
 ```
 
-⭐ **If Flisk CLI helps you start your local services, [star flisk](https://github.com/flisk-sh/flisk).** Stars help other developers find it.
+Describe each service once in `service.json`. Flisk wires up the rest: proxy, Postgres, monitoring, health-checked startup order, and hot reload.
 
-## Why Flisk CLI
+- **Onboard in one command, not a week.** New teammates clone, run `flisk up`, and code.
+- **Run only what you need.** Start the `shop` stack without booting the whole system.
+- **Nothing hidden.** The generated Docker and Tilt files are plain and readable.
 
-| | Compose | Local Kubernetes | Tilt | **Flisk CLI** |
-|---|---|---|---|---|
-| Scaffold a new service in one command | ❌ | ❌ | ❌ | ✅ |
-| Hot reload on file change | ⚠️ | ⚠️ | ✅ | ✅ |
-| Health-checked startup order | ⚠️ | ✅ | ⚠️ | ✅ |
-| Proxy, Postgres, monitoring included | ❌ | ❌ | ❌ | ✅ |
-| Needs a cluster | No | Yes | Optional | **No** |
-| Start one stack of a large system | ⚠️ | ⚠️ | ⚠️ | ✅ `flisk up <stack>` |
+## Built for AI agents
 
-<p><small>Fixture benchmark only: a generated <code>/health</code> fixture with 100 services, all healthy in 112 s, 1.6 GiB total memory, 0 OOM kills on a 16 GB machine. This is a scale fixture, not the Flisk CLI product example. <a href="https://github.com/flisk-sh/flisk/blob/main/docs/benchmarks/scale-bench.md">See the benchmark →</a></small></p>
+Give your coding agent one contract instead of a pile of Compose and Dockerfiles. Agents write `service.json`, run `flisk up`, and get a working local environment on their own. [tdk-skills](https://github.com/flisk-sh/tdk-skills) gives them the skills to do it.
 
-## Repositories
+## Flisk vs. the usual setup
 
-### Start here
+| What you get | **Flisk** | Compose | Local Kubernetes | Tilt |
+|---|:---:|:---:|:---:|:---:|
+| Scaffold a new service in one command | ✅ | ❌ | ❌ | ❌ |
+| Hot reload on file change | ✅ | ⚠️ | ⚠️ | ✅ |
+| Health-checked startup order | ✅ | ⚠️ | ✅ | ⚠️ |
+| Proxy, Postgres, monitoring included | ✅ | ❌ | ❌ | ❌ |
+| Runs without a cluster | ✅ | ✅ | ❌ | ⚠️ |
+| Start one slice of a big system | ✅ `flisk up <stack>` | ⚠️ | ⚠️ | ⚠️ |
 
-| Repo | What it is |
-| --- | --- |
-| ⭐ [**flisk**](https://github.com/flisk-sh/flisk) | The CLI. Starts your services on your machine from one `service.json`, then `flisk up`. Not a deploy, not a Compose file. No Kubernetes. |
-| [website](https://github.com/flisk-sh/website) | Docs for Flisk CLI. Start services locally. Not a deploy tool. |
-| [flisk-sh.github.io](https://github.com/flisk-sh/flisk-sh.github.io) | Install script for Flisk CLI, then `flisk up`. |
-| [create-flisk](https://github.com/flisk-sh/create-flisk) | Landing page to start a Flisk CLI project. Same commands as the quickstart. |
-| [releases](https://github.com/flisk-sh/releases) | Prebuilt Flisk CLI binaries for Linux and macOS, with checksums. |
-| [tdk-demo-animation](https://github.com/flisk-sh/tdk-demo-animation) | Recorded walkthrough: install Flisk CLI, generate a service, open the local health URL. |
+### It scales
 
-### Examples
+> **100 services. All healthy in 112 seconds. 1.6 GiB of memory. Zero OOM kills.** On a 16 GB machine.
+> [See the benchmark](https://github.com/flisk-sh/flisk/blob/main/docs/benchmarks/scale-bench.md) (generated `/health` fixture, not a product example).
 
-| Repo | What it is |
-| --- | --- |
-| [tdk-example](https://github.com/flisk-sh/tdk-example) | Smallest Flisk CLI example: two stacks, four services, started locally. |
-| [tdk-saas-starter](https://github.com/flisk-sh/tdk-saas-starter) | Local SaaS dashboard and a checkout button. Not a billing deploy. |
-| [tdk-restaurant-example](https://github.com/flisk-sh/tdk-restaurant-example) | Reservations, kitchen, menu, and floor, started locally. |
-| [tdk-user-management](https://github.com/flisk-sh/tdk-user-management) | Identity admin, portal, and compliance stacks on your machine. Not a hosted IdP. |
-| [tdk-ecommerce-example](https://github.com/flisk-sh/tdk-ecommerce-example) | Vue 3 storefront and a Hono catalog API on your machine. |
-| [tdk-auth-queue-email-example](https://github.com/flisk-sh/tdk-auth-queue-email-example) | Local OIDC, NATS JetStream, and Mailpit. Not production auth or email. |
-| [tdk-docker-compose-example](https://github.com/flisk-sh/tdk-docker-compose-example) | Run the Flisk CLI inside Docker Compose so the host needs no install. The product is still a local stack. |
-| [tdk-erp-system](https://github.com/flisk-sh/tdk-erp-system) | Scale fixture: 100 generated health services. Not an ERP product. |
-| [tdk-labs](https://github.com/flisk-sh/tdk-labs) | Lessons for Flisk CLI. Each lesson starts a local stack. |
+## Is Flisk for you?
 
-### Ecosystem
+**Yes, if** you're an engineer or tech lead running several services locally and you spend more time on Compose, Dockerfiles, and onboarding than on shipping.
 
-| Repo | What it is |
-| --- | --- |
-| [awesome-tdk-framework](https://github.com/flisk-sh/awesome-tdk-framework) | Curated links for Flisk CLI examples and docs. Not a runtime. |
-| [tdk-skills](https://github.com/flisk-sh/tdk-skills) | Agent skills for the `service.json` contract. Agents run `flisk up` locally. |
-
-## GitHub Marketplace
-
-Code scanning actions we publish on the [GitHub Marketplace](https://github.com/marketplace?query=flisk-sh&type=actions). Each one runs checks and uploads SARIF to GitHub Code scanning.
-
-| Action | What it checks |
-| --- | --- |
-| [Starlark Analyzer for Code Scanning](https://github.com/marketplace/actions/starlark-analyzer-for-code-scanning-unofficial) | Tiltfiles and `*.star` files. |
-| [Goose Analyzer for Code Scanning](https://github.com/marketplace/actions/goose-analyzer-for-code-scanning-unofficial) | `*.goose` files. |
-| [Lobster Analyzer for Code Scanning](https://github.com/marketplace/actions/lobster-analyzer-for-code-scanning-unofficial) | Lobster checks. |
-
-<sub>Unofficial community actions. Not made or endorsed by GitHub or the CodeQL team.</sub>
+**Not yet, if** a single Compose file already works for you. Production deploys stay on Helm; Flisk is for the inner loop.
 
 ## How it works
 
@@ -125,19 +74,64 @@ Project                 one repo, one local landscape
   Stack                 a business slice: shop, identity, kitchen…  →  flisk up <stack>
     Resource            one API, frontend, worker, or database
       service.json      what it is and what it depends on
-      .autogenerated/   generated local development wiring
+      .autogenerated/   generated local wiring
 ```
 
-Generated files are plain local plumbing you can read, not a hidden platform.
+Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Generated files are plain and readable, with no hidden platform.
 
-## Contributing
+## Pick an example and run it
 
-Issues labeled [`good first issue`](https://github.com/flisk-sh/flisk/labels/good%20first%20issue) are the best place to start. See [CONTRIBUTING.md](https://github.com/flisk-sh/flisk/blob/main/CONTRIBUTING.md). Built something with Flisk CLI? [Open an issue](https://github.com/flisk-sh/flisk/issues/new/choose) and we'll add it here.
+| I want to see… | Start with |
+| --- | --- |
+| The smallest working setup (2 stacks, 4 services) | [tdk-example](https://github.com/flisk-sh/tdk-example) |
+| A SaaS dashboard with a checkout button | [tdk-saas-starter](https://github.com/flisk-sh/tdk-saas-starter) |
+| A storefront and catalog API (Vue 3 + Hono) | [tdk-ecommerce-example](https://github.com/flisk-sh/tdk-ecommerce-example) |
+| Auth, queues, and email locally (OIDC, NATS JetStream, Mailpit) | [tdk-auth-queue-email-example](https://github.com/flisk-sh/tdk-auth-queue-email-example) |
+| A multi-stack business system (reservations, kitchen, menu, floor) | [tdk-restaurant-example](https://github.com/flisk-sh/tdk-restaurant-example) |
+| Identity admin, portal, and compliance stacks | [tdk-user-management](https://github.com/flisk-sh/tdk-user-management) |
+| Flisk inside Docker Compose, no host install | [tdk-docker-compose-example](https://github.com/flisk-sh/tdk-docker-compose-example) |
+| Guided lessons | [tdk-labs](https://github.com/flisk-sh/tdk-labs) |
+| 100 services at once | [tdk-erp-system](https://github.com/flisk-sh/tdk-erp-system) |
+
+## Build with Flisk
+
+| | |
+| --- | --- |
+| ⭐ [**flisk**](https://github.com/flisk-sh/flisk) | The CLI |
+| [website](https://github.com/flisk-sh/website) | Docs |
+| [releases](https://github.com/flisk-sh/releases) | Prebuilt binaries for Linux and macOS, with checksums |
+| [tdk-skills](https://github.com/flisk-sh/tdk-skills) | Agent skills so AI agents can write `service.json` and run `flisk up` |
+| [awesome-tdk-framework](https://github.com/flisk-sh/awesome-tdk-framework) | Curated examples, docs, and community projects |
+
+## Join in
+
+- **Find a first task:** [`good first issue`](https://github.com/flisk-sh/flisk/labels/good%20first%20issue) · [CONTRIBUTING.md](https://github.com/flisk-sh/flisk/blob/main/CONTRIBUTING.md)
+- **Show what you built:** [open an issue](https://github.com/flisk-sh/flisk/issues/new/choose) and we'll feature it in Awesome Flisk.
+- **Like it?** A [star](https://github.com/flisk-sh/flisk) helps other developers find it.
+
+<details>
+<summary><strong>Also from us: free code-scanning actions on GitHub Marketplace</strong></summary>
+
+<br>
+
+Each action runs checks and uploads SARIF to GitHub Code scanning. Unofficial community actions, not made or endorsed by GitHub or the CodeQL team.
+
+| Action | Checks |
+| --- | --- |
+| [Starlark Analyzer](https://github.com/marketplace/actions/starlark-analyzer-for-code-scanning-unofficial) | Tiltfiles and `*.star` files |
+| [Goose Analyzer](https://github.com/marketplace/actions/goose-analyzer-for-code-scanning-unofficial) | `*.goose` files |
+| [Lobster Analyzer](https://github.com/marketplace/actions/lobster-analyzer-for-code-scanning-unofficial) | Lobster checks |
+
+</details>
 
 <div align="center">
 
-**Flisk CLI — start services on your machine.**
+**Flisk: your whole stack, running locally.**
 
 <a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/badge/Get_started-flisk-22C55E?style=for-the-badge&logo=github" alt="Get started with flisk"></a>
+<a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=16A34A" alt="npm version"></a>
+<a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=4ADE80&labelColor=0B1620" alt="Follow flisk-sh on GitHub"></a>
+
+[Website](https://flisk.sh/) · [Quickstart](https://flisk.sh/docs/quickstart/) · [Examples](https://flisk.sh/docs/examples/) · [Demo](https://flisk-sh.github.io/tdk-demo-animation/)
 
 </div>
