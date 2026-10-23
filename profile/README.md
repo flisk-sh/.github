@@ -27,7 +27,7 @@ Use Flisk CLI when you are an engineer or tech lead already running several serv
   <a href="https://github.com/flisk-sh/flisk"><img src="https://img.shields.io/github/stars/flisk-sh/flisk?style=for-the-badge&logo=github&label=Star%20flisk&color=22C55E" alt="Star flisk on GitHub"></a>
   <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=16A34A" alt="npm version"></a>
   <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=4ADE80&labelColor=0B1620" alt="Follow flisk-sh on GitHub"></a>
-  <a href="https://github.com/flisk-sh/flisk/blob/main/LICENSE"><img src="https://img.shields.io/github/license/flisk-sh/flisk?style=for-the-badge&color=0A0A0E" alt="MIT license"></a>
+  <a href="https://github.com/flisk-sh/flisk/blob/main/LICENSE"><img src="https://img.shields.io/github/license/flisk-sh/flisk?style=for-the-badge&color=0B1620" alt="MIT license"></a>
 </p>
 
 <p>
