@@ -3,35 +3,45 @@
   <desc id="d">Start services on your machine.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0A0A0E"/>
-      <stop offset="0.5" stop-color="#34244F"/>
-      <stop offset="1" stop-color="#EE924E"/>
+      <stop offset="0" stop-color="#040A12"/>
+      <stop offset="0.6" stop-color="#07131D"/>
+      <stop offset="1" stop-color="#0B2A22"/>
     </linearGradient>
-    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#F7EFE2"/>
-      <stop offset="1" stop-color="#FBD3AE"/>
+    <radialGradient id="glow" cx="0.9" cy="1" r="0.7">
+      <stop offset="0" stop-color="#4ADE80" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#4ADE80" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6EE7A0"/>
+      <stop offset="1" stop-color="#22C55E"/>
     </linearGradient>
     <clipPath id="clip"><rect width="854" height="240" rx="12"/></clipPath>
   </defs>
   <g clip-path="url(#clip)">
     <rect width="854" height="240" fill="url(#bg)"/>
-    <g fill="#F7EFE2">
+    <rect width="854" height="240" fill="url(#glow)">
+      <animate attributeName="opacity" values="0.55;1;0.55" dur="5s" repeatCount="indefinite"/>
+    </rect>
+    <g fill="#6EE7A0">
       <circle cx="90" cy="48" r="1.6"><animate attributeName="opacity" values="0.1;0.9;0.1" dur="3s" repeatCount="indefinite"/></circle>
-      <circle cx="260" cy="30" r="1.2"><animate attributeName="opacity" values="0.9;0.1;0.9" dur="4s" repeatCount="indefinite"/></circle>
-      <circle cx="610" cy="40" r="1.6"><animate attributeName="opacity" values="0.1;0.9;0.1" dur="3.5s" repeatCount="indefinite"/></circle>
+      <circle cx="210" cy="30" r="1.2"><animate attributeName="opacity" values="0.9;0.1;0.9" dur="4s" repeatCount="indefinite"/></circle>
+      <circle cx="610" cy="34" r="1.6"><animate attributeName="opacity" values="0.1;0.9;0.1" dur="3.5s" repeatCount="indefinite"/></circle>
       <circle cx="770" cy="70" r="1.2"><animate attributeName="opacity" values="0.8;0.1;0.8" dur="2.8s" repeatCount="indefinite"/></circle>
-      <circle cx="430" cy="22" r="1"><animate attributeName="opacity" values="0.1;0.8;0.1" dur="5s" repeatCount="indefinite"/></circle>
+      <circle cx="430" cy="20" r="1"><animate attributeName="opacity" values="0.1;0.8;0.1" dur="5s" repeatCount="indefinite"/></circle>
     </g>
-    <path fill="#F7EFE2" fill-opacity="0.10" d="M0,185 Q213.5,145 427,185 T854,185 T1281,185 T1708,185 V240 H0 Z">
+    <path fill="#4ADE80" fill-opacity="0.10" d="M0,195 Q213.5,160 427,195 T854,195 T1281,195 T1708,195 V240 H0 Z">
       <animateTransform attributeName="transform" type="translate" from="0 0" to="-854 0" dur="9s" repeatCount="indefinite"/>
     </path>
-    <path fill="#F7EFE2" fill-opacity="0.16" d="M0,205 Q213.5,235 427,205 T854,205 T1281,205 T1708,205 V240 H0 Z">
+    <path fill="#4ADE80" fill-opacity="0.18" d="M0,212 Q213.5,238 427,212 T854,212 T1281,212 T1708,212 V240 H0 Z">
       <animateTransform attributeName="transform" type="translate" from="-854 0" to="0 0" dur="6s" repeatCount="indefinite"/>
     </path>
-    <text x="427" y="108" text-anchor="middle" fill="url(#title)" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="72" font-weight="700">Flisk CLI
+    <polygon points="283,50 252,98 273,98 261,132 300,82 278,82" fill="url(#bolt)">
+      <animate attributeName="opacity" values="1;0.75;1" dur="2.4s" repeatCount="indefinite"/>
+    </polygon>
+    <text x="322" y="112" fill="#FFFFFF" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="68" font-weight="700">flisk <tspan fill="#4ADE80">CLI</tspan>
       <animate attributeName="opacity" from="0" to="1" dur="1.2s" fill="freeze"/>
     </text>
-    <text x="427" y="148" text-anchor="middle" fill="#F7EFE2" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" font-weight="500">Start services on your machine.
+    <text x="427" y="158" text-anchor="middle" fill="#C7D6DF" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" font-weight="500">Start services on your machine.
       <animate attributeName="opacity" from="0" to="1" begin="0.5s" dur="1.2s" fill="freeze"/>
     </text>
   </g>
