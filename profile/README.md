@@ -3,7 +3,7 @@
 <a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/daily?language=Starlark" alt="flisk-sh/flisk | Trendshift daily" width="250" height="55"/></a>
 <a href="https://trendshift.io/repositories/266432?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-266432" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/266432/weekly?language=Starlark" alt="flisk-sh/flisk | Trendshift weekly" width="250" height="55"/></a>
 
-<img src="https://raw.githubusercontent.com/flisk-sh/.github/main/profile/header-green.svg" alt="Flisk: your whole stack, running locally with one command." width="100%">
+<img src="https://raw.githubusercontent.com/flisk-sh/.github/main/profile/header-flisk.svg" alt="Flisk: your whole stack, running locally with one command." width="100%">
 
 # Your whole stack, running locally. One command.
 
