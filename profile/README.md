@@ -83,13 +83,13 @@ Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Gen
 
 | I want to see… | Start with |
 | --- | --- |
-| The smallest working setup (2 stacks, 4 services) | [tdk-example](https://github.com/flisk-sh/tdk-example) |
-| A SaaS dashboard with a checkout button | [tdk-saas-starter](https://github.com/flisk-sh/tdk-saas-starter) |
-| A storefront and catalog API (Vue 3 + Hono) | [tdk-ecommerce-example](https://github.com/flisk-sh/tdk-ecommerce-example) |
-| Auth, queues, and email locally (OIDC, NATS JetStream, Mailpit) | [tdk-auth-queue-email-example](https://github.com/flisk-sh/tdk-auth-queue-email-example) |
+| The smallest working setup (2 stacks, 4 services) | [flisk-example](https://github.com/flisk-sh/flisk-example) |
+| A SaaS dashboard with a checkout button | [flisk-saas-starter](https://github.com/flisk-sh/flisk-saas-starter) |
+| A storefront and catalog API (Vue 3 + Hono) | [flisk-ecommerce-example](https://github.com/flisk-sh/flisk-ecommerce-example) |
+| Auth, queues, and email locally (OIDC, NATS JetStream, Mailpit) | [flisk-auth-queue-email-example](https://github.com/flisk-sh/flisk-auth-queue-email-example) |
 | A multi-stack business system (reservations, kitchen, menu, floor) | [tdk-restaurant-example](https://github.com/flisk-sh/tdk-restaurant-example) |
-| Identity admin, portal, and compliance stacks | [tdk-user-management](https://github.com/flisk-sh/tdk-user-management) |
-| Flisk inside Docker Compose, no host install | [tdk-docker-compose-example](https://github.com/flisk-sh/tdk-docker-compose-example) |
+| Identity admin, portal, and compliance stacks | [flisk-user-management](https://github.com/flisk-sh/flisk-user-management) |
+| Flisk inside Docker Compose, no host install | [flisk-docker-compose-example](https://github.com/flisk-sh/flisk-docker-compose-example) |
 | Guided lessons | [tdk-labs](https://github.com/flisk-sh/tdk-labs) |
 | 100 services at once | [tdk-erp-system](https://github.com/flisk-sh/tdk-erp-system) |
 
