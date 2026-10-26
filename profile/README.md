@@ -87,11 +87,11 @@ Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Gen
 | A SaaS dashboard with a checkout button | [flisk-saas-starter](https://github.com/flisk-sh/flisk-saas-starter) |
 | A storefront and catalog API (Vue 3 + Hono) | [flisk-ecommerce-example](https://github.com/flisk-sh/flisk-ecommerce-example) |
 | Auth, queues, and email locally (OIDC, NATS JetStream, Mailpit) | [flisk-auth-queue-email-example](https://github.com/flisk-sh/flisk-auth-queue-email-example) |
-| A multi-stack business system (reservations, kitchen, menu, floor) | [tdk-restaurant-example](https://github.com/flisk-sh/tdk-restaurant-example) |
+| A multi-stack business system (reservations, kitchen, menu, floor) | [flisk-restaurant-example](https://github.com/flisk-sh/flisk-restaurant-example) |
 | Identity admin, portal, and compliance stacks | [flisk-user-management](https://github.com/flisk-sh/flisk-user-management) |
 | Flisk inside Docker Compose, no host install | [flisk-docker-compose-example](https://github.com/flisk-sh/flisk-docker-compose-example) |
 | Guided lessons | [tdk-labs](https://github.com/flisk-sh/tdk-labs) |
-| 100 services at once | [tdk-erp-system](https://github.com/flisk-sh/tdk-erp-system) |
+| 100 services at once | [flisk-erp-system](https://github.com/flisk-sh/flisk-erp-system) |
 
 ## Build with Flisk
 
