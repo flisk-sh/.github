@@ -43,7 +43,7 @@ Describe each service once in `service.json`. Flisk wires up the rest: proxy, Po
 
 ## Built for AI agents
 
-Give your coding agent one contract instead of a pile of Compose and Dockerfiles. Agents write `service.json`, run `flisk up`, and get a working local environment on their own. [tdk-skills](https://github.com/flisk-sh/tdk-skills) gives them the skills to do it.
+Give your coding agent one contract instead of a pile of Compose and Dockerfiles. Agents write `service.json`, run `flisk up`, and get a working local environment on their own. [flisk-skills](https://github.com/flisk-sh/flisk-skills) gives them the skills to do it.
 
 ## Flisk vs. the usual setup
 
@@ -90,7 +90,7 @@ Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Gen
 | A multi-stack business system (reservations, kitchen, menu, floor) | [flisk-restaurant-example](https://github.com/flisk-sh/flisk-restaurant-example) |
 | Identity admin, portal, and compliance stacks | [flisk-user-management](https://github.com/flisk-sh/flisk-user-management) |
 | Flisk inside Docker Compose, no host install | [flisk-docker-compose-example](https://github.com/flisk-sh/flisk-docker-compose-example) |
-| Guided lessons | [tdk-labs](https://github.com/flisk-sh/tdk-labs) |
+| Guided lessons | [flisk-labs](https://github.com/flisk-sh/flisk-labs) |
 | 100 services at once | [flisk-erp-system](https://github.com/flisk-sh/flisk-erp-system) |
 
 ## Build with Flisk
@@ -100,8 +100,8 @@ Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Gen
 | ⭐ [**flisk**](https://github.com/flisk-sh/flisk) | The CLI |
 | [website](https://github.com/flisk-sh/website) | Docs |
 | [releases](https://github.com/flisk-sh/releases) | Prebuilt binaries for Linux and macOS, with checksums |
-| [tdk-skills](https://github.com/flisk-sh/tdk-skills) | Agent skills so AI agents can write `service.json` and run `flisk up` |
-| [awesome-tdk-framework](https://github.com/flisk-sh/awesome-tdk-framework) | Curated examples, docs, and community projects |
+| [flisk-skills](https://github.com/flisk-sh/flisk-skills) | Agent skills so AI agents can write `service.json` and run `flisk up` |
+| [awesome-flisk-framework](https://github.com/flisk-sh/awesome-flisk-framework) | Curated examples, docs, and community projects |
 
 ## Join in
 
