@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or idea
+    url: https://github.com/flisk-sh/flisk/discussions
+    about: Not sure it deserves an issue? Ask in Discussions.
+  - name: Chat on Discord
+    url: https://discord.gg/qMu5Xn8Kaq
+    about: Talk to the maintainers and other users.
+  - name: Report a security vulnerability
+    url: https://github.com/flisk-sh/.github/blob/main/SECURITY.md
+    about: Please report security issues privately, never in a public issue.
