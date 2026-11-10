@@ -12,7 +12,7 @@ No Kubernetes. No Compose file to maintain. Built for engineers and AI agents.
 
 <p>
   <a href="https://flisk.sh/docs/quickstart/"><img src="https://img.shields.io/badge/Start_in_30_seconds-22C55E?style=for-the-badge" alt="Start in 30 seconds"></a>
-  <a href="https://flisk-sh.github.io/flisk-demo-animation/"><img src="https://img.shields.io/badge/Watch_the_demo-0B1620?style=for-the-badge" alt="Watch the demo"></a>
+  <a href="#see-it-run"><img src="https://img.shields.io/badge/Watch_the_demo-0B1620?style=for-the-badge" alt="Watch the demo"></a>
 </p>
 
 <p>
@@ -25,6 +25,12 @@ No Kubernetes. No Compose file to maintain. Built for engineers and AI agents.
 </div>
 
 ---
+
+## See it run
+
+<a href="https://github.com/flisk-sh/flisk/blob/main/docs/assets/demo-cli.svg"><img src="https://raw.githubusercontent.com/flisk-sh/flisk/main/docs/assets/demo-cli.svg" alt="Four flisk commands create a project, an API and a website, then start them" width="100%"></a>
+
+Or run the real thing: `npx @flisk-sh/flisk demo`. With no Docker it starts a small menu app as two local processes in about a second.
 
 ## Try it in 30 seconds
 
@@ -132,6 +138,6 @@ Each action runs checks and uploads SARIF to GitHub Code scanning. Unofficial co
 <a href="https://www.npmjs.com/package/@flisk-sh/flisk"><img src="https://img.shields.io/npm/v/@flisk-sh/flisk?style=for-the-badge&logo=npm&color=16A34A" alt="npm version"></a>
 <a href="https://github.com/flisk-sh"><img src="https://img.shields.io/github/followers/flisk-sh?style=for-the-badge&logo=github&label=Follow&color=4ADE80&labelColor=0B1620" alt="Follow flisk-sh on GitHub"></a>
 
-[Website](https://flisk.sh/) · [Quickstart](https://flisk.sh/docs/quickstart/) · [Examples](https://flisk.sh/docs/examples/) · [Demo](https://flisk-sh.github.io/flisk-demo-animation/)
+[Website](https://flisk.sh/) · [Quickstart](https://flisk.sh/docs/quickstart/) · [Examples](https://flisk.sh/docs/examples/) · [Demo](#see-it-run)
 
 </div>
