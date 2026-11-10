@@ -105,7 +105,7 @@ Docker runs the containers. Tilt runs the dev loop. Flisk writes the config. Gen
 
 ## Join in
 
-- **Find a first task:** [`good first issue`](https://github.com/flisk-sh/flisk/labels/good%20first%20issue) · [CONTRIBUTING.md](https://github.com/flisk-sh/flisk/blob/main/CONTRIBUTING.md)
+- **Find a first task:** [`good first issue`](https://github.com/flisk-sh/flisk/labels/good%20first%20issue) · [CONTRIBUTING.md](https://github.com/flisk-sh/flisk/blob/main/.github/CONTRIBUTING.md)
 - **Show what you built:** [open an issue](https://github.com/flisk-sh/flisk/issues/new/choose) and we'll feature it in Awesome Flisk.
 - **Like it?** A [star](https://github.com/flisk-sh/flisk) helps other developers find it.
 
