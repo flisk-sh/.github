@@ -1,0 +1,3 @@
+# Shows a "Sponsor" button on every flisk-sh repository that has no FUNDING.yml of its own.
+# https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+github: [flisk-sh]
