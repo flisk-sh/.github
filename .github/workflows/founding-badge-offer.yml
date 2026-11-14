@@ -1,0 +1,99 @@
+name: Founding badge offer (shared)
+
+# One copy of the "claim your numbered badge" comment for every public flisk-sh repo that
+# takes outside PRs. Each repo keeps a short caller file that decides WHEN to run it
+# (a merged PR from an outside contributor) and calls this with `uses:`. The wording is
+# messages/claim-badge.md in this repo, so changing the text or this job here changes it
+# everywhere. flisk-sh/flisk posts the same steps inside its own thank-you comment.
+#
+# It runs from the caller's pull_request_target event and never checks out or runs PR
+# code: it reads the PR only as data inside github-script.
+
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  offer:
+    name: Offer the numbered badge
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const author = pr.user.login.toLowerCase();
+            const MARK = '<!-- flisk:founding-badge-offer -->';
+            const discordInvite = 'https://discord.gg/qMu5Xn8Kaq';
+            const SEATS = 100;
+            const org = 'flisk-sh';
+
+            // The Discord bot keeps the claimed seats in this issue. The count is a nicety,
+            // so a failure here falls back to wording without a number.
+            let seatsLeft = null;
+            try {
+              const { data: registry } = await github.rest.issues.get(
+                { owner: org, repo: 'flisk', issue_number: 3518 });
+              const seats = JSON.parse(/<!-- flisk:founding-data (.*?) -->/s.exec(registry.body)[1]);
+              if (seats.some((s) => s.github?.toLowerCase() === author && !s.revoked)) {
+                core.info(`Skipping: @${pr.user.login} already has a numbered badge.`);
+                return;
+              }
+              seatsLeft = Math.max(SEATS - seats.length, 0);
+            } catch (e) {
+              core.warning(`Could not read the founding seats: ${e.message}`);
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments,
+              { owner, repo, issue_number: pr.number, per_page: 100 });
+            if (comments.some((c) => c.body?.includes(MARK))) return;
+
+            const founding = seatsLeft !== 0;
+            const badgeName = founding ? 'Founding Contributor' : 'Flisk Contributor';
+            const lockedBadgeUrl = `https://img.shields.io/static/v1?${new URLSearchParams({
+              label: `\u{1F512} ${badgeName.toUpperCase()}`,
+              message: founding && seatsLeft !== null ? `${seatsLeft} of ${SEATS} left` : 'claim yours',
+              color: '06b6d4', labelColor: '07080f', style: 'for-the-badge',
+            }).toString().replaceAll('+', '%20')}`;
+            const claimButton = `[![Claim your badge](https://img.shields.io/badge/Claim%20your%20badge-5865F2?style=for-the-badge&logo=discord&logoColor=white)](${discordInvite})`;
+            const prUrl = pr.html_url;
+            const vars = {
+              lockedBadge: `[![${badgeName} badge, locked](${lockedBadgeUrl})](${discordInvite})`,
+              badgeName,
+              repoUrl: `https://github.com/${org}/flisk`,
+              orgUrl: `https://github.com/${org}`,
+              discordInvite,
+              // The contributor's own post, so the link to their PR is welcome here.
+              xPostUrl: `https://x.com/intent/post?text=${encodeURIComponent(`My PR to ${repo} just got merged. flisk runs your microservices and agent stacks locally with one command. Claiming my ${badgeName} badge, first ${SEATS} only: ${prUrl}`)}`,
+              seatsLine: founding && seatsLeft !== null ? `First ${SEATS} only. ${seatsLeft} left.` : '',
+              claimButton,
+            };
+
+            // The wording lives in messages/claim-badge.md of this repo. If it cannot be read,
+            // a short built-in version of the same steps is used so the offer still goes out.
+            let template = null;
+            try {
+              const file = await github.rest.repos.getContent({ owner: org, repo: '.github', path: 'messages/claim-badge.md' });
+              template = Buffer.from(file.data.content, 'base64').toString('utf8');
+            } catch (e) {
+              core.warning(`Could not read messages/claim-badge.md, using the built-in text: ${e.message}`);
+            }
+            template ??= [
+              '### 🎁 Your {{badgeName}} badge in 3 steps', '', '{{lockedBadge}}', '',
+              '1. ⭐ [Star the repo]({{repoUrl}}) and 👤 [follow us]({{orgUrl}})',
+              '2. ✅ Get a PR merged. Done! Now 📣 [post it on X]({{xPostUrl}}), the text is ready',
+              '3. 💬 Post this PR\'s link in `#start-here` on [our Discord]({{discordInvite}}) and the bot gives you your number.',
+              '', '{{seatsLine}}', '', '{{claimButton}}',
+            ].join('\n');
+            const text = template
+              .replace(/<!--[\s\S]*?-->/g, '')
+              .replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
+              .replace(/\n{3,}/g, '\n\n')
+              .trim();
+
+            await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: `${MARK}\n${text}` });
