@@ -28,8 +28,8 @@ jobs:
           fi
           langs='"actions"'
           files=$(git ls-files)
-          echo "$files" | grep -qE '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts|vue|svelte)$' && langs="$langs,\"javascript-typescript\""
-          echo "$files" | grep -qE '\.py$' && langs="$langs,\"python\""
+          if echo "$files" | grep -qE '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts|vue|svelte)$'; then langs="$langs,\"javascript-typescript\""; fi
+          if echo "$files" | grep -qE '\.py$'; then langs="$langs,\"python\""; fi
           echo "list=[$langs]" >> "$GITHUB_OUTPUT"
           echo "CodeQL languages: [$langs]" >> "$GITHUB_STEP_SUMMARY"
 

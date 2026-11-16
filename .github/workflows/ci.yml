@@ -48,12 +48,14 @@ jobs:
             elif [ -f yarn.lock ]; then pm=yarn
             fi
           fi
-          pydirs=$(git ls-files | grep -E '(^|/)(pyproject\.toml|requirements\.txt|setup\.py)$' | awk -F/ 'NF<=4' | xargs -r -n1 dirname | sort -u | tr '\n' ' ')
-          [ -n "$pydirs" ] && py=true
-          echo "pydirs=$pydirs" >> "$GITHUB_OUTPUT"
-          echo "node=$node" >> "$GITHUB_OUTPUT"
-          echo "pm=$pm" >> "$GITHUB_OUTPUT"
-          echo "python=$py" >> "$GITHUB_OUTPUT"
+          pydirs=$(git ls-files | { grep -E '(^|/)(pyproject\.toml|requirements\.txt|setup\.py)$' || true; } | awk -F/ 'NF<=4' | xargs -r -n1 dirname | sort -u | tr '\n' ' ')
+          if [ -n "$pydirs" ]; then py=true; fi
+          {
+            echo "pydirs=$pydirs"
+            echo "node=$node"
+            echo "pm=$pm"
+            echo "python=$py"
+          } >> "$GITHUB_OUTPUT"
           echo "Stack: node=$node ($pm) python=$py" >> "$GITHUB_STEP_SUMMARY"
 
       - if: steps.stack.outputs.node == 'true'
@@ -72,7 +74,7 @@ jobs:
           case "$PM" in
             bun) bun install --frozen-lockfile || bun install ;;
             pnpm) corepack enable && pnpm install --frozen-lockfile ;;
-            yarn) corepack enable && yarn install --immutable || yarn install --frozen-lockfile ;;
+            yarn) corepack enable; yarn install --immutable || yarn install --frozen-lockfile ;;
             *) if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi ;;
           esac
 
@@ -129,12 +131,13 @@ jobs:
           for d in $PYDIRS; do
             echo "::group::Python in $d"
             python -m venv "$RUNNER_TEMP/venv-${d//\//_}"
+            # shellcheck source=/dev/null
             . "$RUNNER_TEMP/venv-${d//\//_}/bin/activate"
             (
               cd "$d"
               if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
               if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e . || pip install .; fi
-              if ls tests test test_*.py */test_*.py >/dev/null 2>&1; then
+              if ls -- tests test test_*.py */test_*.py >/dev/null 2>&1; then
                 pip install pytest
                 pytest -q
                 echo "- ran pytest in \`$d\`" >> "$GITHUB_STEP_SUMMARY"
