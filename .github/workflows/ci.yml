@@ -48,7 +48,9 @@ jobs:
             elif [ -f yarn.lock ]; then pm=yarn
             fi
           fi
-          if [ -f pyproject.toml ] || [ -f requirements.txt ] || [ -f setup.py ]; then py=true; fi
+          pydirs=$(git ls-files | grep -E '(^|/)(pyproject\.toml|requirements\.txt|setup\.py)$' | awk -F/ 'NF<=4' | xargs -r -n1 dirname | sort -u | tr '\n' ' ')
+          [ -n "$pydirs" ] && py=true
+          echo "pydirs=$pydirs" >> "$GITHUB_OUTPUT"
           echo "node=$node" >> "$GITHUB_OUTPUT"
           echo "pm=$pm" >> "$GITHUB_OUTPUT"
           echo "python=$py" >> "$GITHUB_OUTPUT"
@@ -80,19 +82,38 @@ jobs:
           PM: ${{ steps.stack.outputs.pm }}
           SCRIPTS: ${{ inputs.scripts }}
         run: |
+          # The root package plus every workspace package (package.json "workspaces").
+          dirs=$(node -e '
+            const fs=require("fs"),path=require("path");
+            const p=require("./package.json");
+            const ws=Array.isArray(p.workspaces)?p.workspaces:(p.workspaces&&p.workspaces.packages)||[];
+            const out=["."];
+            const expand=(base,parts)=>{
+              if(!parts.length){ if(fs.existsSync(path.join(base,"package.json"))) out.push(base); return; }
+              const [h,...t]=parts;
+              if(h==="*"){ for(const d of fs.readdirSync(base,{withFileTypes:true})) if(d.isDirectory()&&d.name!=="node_modules") expand(path.join(base,d.name),t); }
+              else if(fs.existsSync(path.join(base,h))) expand(path.join(base,h),t);
+            };
+            for(const g of ws) expand(".",g.replace(/\/$/,"").split("/"));
+            process.stdout.write([...new Set(out)].join("\n"));')
           ran=0
           for s in $SCRIPTS; do
-            body=$(node -e 'const p=require("./package.json");process.stdout.write((p.scripts||{})[process.argv[1]]||"")' "$s")
-            if [ -z "$body" ]; then echo "skip $s: no script"; continue; fi
-            # npm init puts a test script that always fails; it is not a test.
-            if echo "$body" | grep -q 'no test specified'; then echo "skip $s: placeholder"; continue; fi
-            echo "::group::$PM run $s"
-            "$PM" run "$s"
-            echo "::endgroup::"
-            echo "- ran \`$s\`" >> "$GITHUB_STEP_SUMMARY"
-            ran=$((ran+1))
+            for d in $dirs; do
+              body=$(node -e 'const p=require(process.argv[2]+"/package.json");process.stdout.write((p.scripts||{})[process.argv[1]]||"")' "$s" "$(cd "$d" && pwd)")
+              [ -n "$body" ] || continue
+              # npm init puts a test script that always fails; it is not a test.
+              if echo "$body" | grep -q 'no test specified'; then echo "skip $d $s: placeholder"; continue; fi
+              echo "::group::$d: $PM run $s"
+              (cd "$d" && "$PM" run "$s")
+              echo "::endgroup::"
+              echo "- ran \`$s\` in \`$d\`" >> "$GITHUB_STEP_SUMMARY"
+              ran=$((ran+1))
+            done
           done
-          [ "$ran" -gt 0 ] || echo "- no lint, typecheck, test or build script found" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ran" -eq 0 ]; then
+            echo "::warning::No lint, typecheck, test or build script found, so this job checked nothing."
+            echo "- **no lint, typecheck, test or build script found: this job checked nothing**" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - if: steps.stack.outputs.python == 'true'
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -101,18 +122,30 @@ jobs:
 
       - name: Install and test (Python)
         if: steps.stack.outputs.python == 'true'
+        env:
+          PYDIRS: ${{ steps.stack.outputs.pydirs }}
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e . || pip install .; fi
-          if ls tests test test_*.py */test_*.py >/dev/null 2>&1; then
-            pip install pytest
-            pytest -q
-            echo "- ran pytest" >> "$GITHUB_STEP_SUMMARY"
-          else
-            python -m compileall -q .
-            echo "- no Python tests found; compiled the sources only" >> "$GITHUB_STEP_SUMMARY"
-          fi
+          for d in $PYDIRS; do
+            echo "::group::Python in $d"
+            python -m venv "$RUNNER_TEMP/venv-${d//\//_}"
+            . "$RUNNER_TEMP/venv-${d//\//_}/bin/activate"
+            (
+              cd "$d"
+              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+              if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e . || pip install .; fi
+              if ls tests test test_*.py */test_*.py >/dev/null 2>&1; then
+                pip install pytest
+                pytest -q
+                echo "- ran pytest in \`$d\`" >> "$GITHUB_STEP_SUMMARY"
+              else
+                python -m compileall -q .
+                echo "- no Python tests in \`$d\`; compiled the sources only" >> "$GITHUB_STEP_SUMMARY"
+              fi
+            )
+            deactivate
+            echo "::endgroup::"
+          done
 
       - name: Nothing to build
         if: steps.stack.outputs.node != 'true' && steps.stack.outputs.python != 'true'

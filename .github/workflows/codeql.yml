@@ -17,7 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - id: find
+        env:
+          PRIVATE: ${{ github.event.repository.private }}
         run: |
+          if [ "$PRIVATE" = "true" ]; then
+            # Code scanning on a private repo needs GitHub Advanced Security.
+            echo "list=[]" >> "$GITHUB_OUTPUT"
+            echo "CodeQL skipped: private repo without Advanced Security" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           langs='"actions"'
           files=$(git ls-files)
           echo "$files" | grep -qE '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts|vue|svelte)$' && langs="$langs,\"javascript-typescript\""
@@ -28,6 +36,7 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     needs: languages
+    if: needs.languages.outputs.list != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
