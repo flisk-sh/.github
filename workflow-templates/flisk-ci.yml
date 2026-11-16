@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [$default-branch]
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    if: github.event_name != 'schedule'
+    uses: flisk-sh/.github/.github/workflows/ci.yml@v1
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    uses: flisk-sh/.github/.github/workflows/dependency-review.yml@v1
+
+  codeql:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    uses: flisk-sh/.github/.github/workflows/codeql.yml@v1
+
+  gel:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    permissions:
+      contents: read
+      checks: read
+      pull-requests: read
+    uses: flisk-sh/gel/.github/workflows/gel.yml@v1
+    with:
+      gel_ref: v1

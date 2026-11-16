@@ -1,0 +1,7 @@
+{
+  "name": "Flisk CI",
+  "description": "Build and test, dependency review, CodeQL and GEL guards, all from shared flisk-sh workflows.",
+  "iconName": "octicon check-circle",
+  "categories": ["Continuous integration", "JavaScript", "TypeScript", "Python"],
+  "filePatterns": ["package.json$", "pyproject.toml$", "requirements.txt$"]
+}
