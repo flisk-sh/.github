@@ -1,0 +1,79 @@
+# Reusable release gate: a release goes out only when every check on its commit is green.
+# Call it as the first job of a release workflow and make the publish job `needs:` it.
+# It waits for checks still running, then fails on any red one and on a missing required check.
+name: Release gate (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      sha:
+        description: Commit to release. Defaults to the commit that started the workflow.
+        type: string
+        default: ""
+      require:
+        description: Comma-separated check names that must be present and green, such as "GEL guards, Build and test"
+        type: string
+        default: ""
+      ignore:
+        description: Regular expression of check names to skip, such as this release workflow's own jobs
+        type: string
+        default: "^(Release gate|release|publish)"
+      wait_minutes:
+        type: number
+        default: 20
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Release gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      checks: read
+    steps:
+      - name: Every check on the commit is green
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ inputs.sha || github.sha }}
+          REQUIRE: ${{ inputs.require }}
+          IGNORE: ${{ inputs.ignore }}
+          WAIT: ${{ inputs.wait_minutes }}
+        run: |
+          deadline=$(( $(date +%s) + WAIT * 60 ))
+          while :; do
+            gh api --paginate "repos/$REPO/commits/$SHA/check-runs?per_page=100" \
+              -q '.check_runs[] | [.name, .status, (.conclusion // "")] | @tsv' \
+              | { grep -Ev "^($IGNORE)" || true; } > checks.tsv
+            pending=$(awk -F'\t' '$2 != "completed"' checks.tsv | wc -l | tr -d ' ')
+            if [ "$pending" -eq 0 ] || [ "$(date +%s)" -ge "$deadline" ]; then break; fi
+            echo "waiting for $pending check(s)"; sleep 30
+          done
+          {
+            echo "## Release gate for \`${SHA:0:7}\`"
+            echo "| Check | Status | Conclusion |"
+            echo "| --- | --- | --- |"
+            awk -F'\t' '{ printf "| %s | %s | %s |\n", $1, $2, $3 }' checks.tsv
+          } >> "$GITHUB_STEP_SUMMARY"
+          bad=0
+          if [ ! -s checks.tsv ]; then echo "::error::no checks ran on $SHA"; bad=1; fi
+          while IFS=$'\t' read -r name status conclusion; do
+            case "$status/$conclusion" in
+              completed/success|completed/skipped|completed/neutral) ;;
+              *) echo "::error::$name is $status ${conclusion}"; bad=1 ;;
+            esac
+          done < checks.tsv
+          if [ -n "$REQUIRE" ]; then
+            # a reusable workflow's check is named "<caller job> / <job>", so a name matches either form
+            printf '%s\n' "$REQUIRE" | tr ',' '\n' | sed 's/^ *//;s/ *$//' | while read -r need; do
+              [ -z "$need" ] && continue
+              if ! awk -F'\t' -v n="$need" '($1 == n || substr($1, length($1) - length(n) - 2) == " / " n) && $3 == "success" { f=1 } END { exit !f }' checks.tsv; then
+                echo "::error::required check \"$need\" is missing or not green"; echo 1 > missing
+              fi
+            done
+            [ -f missing ] && bad=1
+          fi
+          exit $bad

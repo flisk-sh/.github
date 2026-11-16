@@ -1,0 +1,68 @@
+# Reusable deploy health check: after a deploy, the URL answers with the expected status
+# (and text, when given) within a few tries, or the workflow fails.
+# Call it as the job after the deploy job: `needs: deploy`.
+name: Deploy health (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      url:
+        description: URL to check, such as https://example.com/health
+        type: string
+        required: true
+      expect_status:
+        type: number
+        default: 200
+      expect_text:
+        description: Text the body must contain. Empty means any body.
+        type: string
+        default: ""
+      attempts:
+        type: number
+        default: 10
+      delay_seconds:
+        type: number
+        default: 15
+      max_ms:
+        description: Fail when the last good answer took longer than this. 0 turns it off.
+        type: number
+        default: 0
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    name: Deploy health
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: The deployed URL is healthy
+        env:
+          URL: ${{ inputs.url }}
+          EXPECT: ${{ inputs.expect_status }}
+          TEXT: ${{ inputs.expect_text }}
+          TRIES: ${{ inputs.attempts }}
+          DELAY: ${{ inputs.delay_seconds }}
+          MAX_MS: ${{ inputs.max_ms }}
+        run: |
+          for i in $(seq 1 "$TRIES"); do
+            out=$(curl -sS -o body.txt -w '%{http_code} %{time_total}' --max-time 20 "$URL" || echo "000 0")
+            code=${out%% *}; secs=${out##* }
+            ms=$(awk -v s="$secs" 'BEGIN { printf "%d", s * 1000 }')
+            ok=1
+            [ "$code" = "$EXPECT" ] || ok=0
+            if [ -n "$TEXT" ] && ! grep -qF -- "$TEXT" body.txt; then ok=0; fi
+            echo "try $i: HTTP $code in ${ms} ms"
+            if [ "$ok" = 1 ]; then
+              echo "- \`$URL\`: HTTP $code in ${ms} ms on try $i" >> "$GITHUB_STEP_SUMMARY"
+              if [ "$MAX_MS" -gt 0 ] && [ "$ms" -gt "$MAX_MS" ]; then
+                echo "::error::$URL answered in ${ms} ms, over the ${MAX_MS} ms limit"; exit 1
+              fi
+              exit 0
+            fi
+            [ "$i" -lt "$TRIES" ] && sleep "$DELAY"
+          done
+          echo "::error::$URL did not answer HTTP $EXPECT${TEXT:+ with \"$TEXT\"} after $TRIES tries (last: HTTP $code)"
+          echo "- \`$URL\`: **unhealthy**, last HTTP $code" >> "$GITHUB_STEP_SUMMARY"
+          exit 1

@@ -1,0 +1,6 @@
+{
+  "name": "Flisk release",
+  "description": "Release only when every check on the commit is green, then check that the deployed URL answers.",
+  "iconName": "octicon rocket",
+  "categories": ["Deployment", "Continuous integration"]
+}
