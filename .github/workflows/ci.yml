@@ -40,14 +40,17 @@ jobs:
       - name: Find the stack
         id: stack
         run: |
-          node=false; py=false; pm=npm
+          node=false; py=false; pm=npm; bun_used=false; ruby=false
           if [ -f package.json ]; then
             node=true
+            # Scripts that call bun (for example "test": "bun test") need bun even when no bun lockfile exists.
+            if grep -Eq '(^|[^[:alnum:]_-])bunx?([^[:alnum:]_-]|$)' package.json; then bun_used=true; fi
             if [ -f bun.lock ] || [ -f bun.lockb ]; then pm=bun
             elif [ -f pnpm-lock.yaml ]; then pm=pnpm
             elif [ -f yarn.lock ]; then pm=yarn
             fi
           fi
+          if [ -f Gemfile ]; then ruby=true; fi
           pydirs=$(git ls-files | { grep -E '(^|/)(pyproject\.toml|requirements\.txt|setup\.py)$' || true; } | awk -F/ 'NF<=4' | xargs -r -n1 dirname | sort -u | tr '\n' ' ')
           if [ -n "$pydirs" ]; then py=true; fi
           {
@@ -55,6 +58,8 @@ jobs:
             echo "node=$node"
             echo "pm=$pm"
             echo "python=$py"
+            echo "bun_used=$bun_used"
+            echo "ruby=$ruby"
           } >> "$GITHUB_OUTPUT"
           echo "Stack: node=$node ($pm) python=$py" >> "$GITHUB_STEP_SUMMARY"
 
@@ -63,8 +68,15 @@ jobs:
         with:
           node-version: ${{ inputs.node_version }}
 
-      - if: steps.stack.outputs.pm == 'bun'
+      - if: steps.stack.outputs.pm == 'bun' || steps.stack.outputs.bun_used == 'true'
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+      # A Jekyll or other Ruby site: its build script runs bundle exec.
+      - if: steps.stack.outputs.ruby == 'true'
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
+        with:
+          bundler-cache: true
+          working-directory: ${{ inputs.working_directory }}
 
       - name: Install (Node)
         if: steps.stack.outputs.node == 'true'
