@@ -40,13 +40,15 @@ jobs:
       - name: Find the stack
         id: stack
         run: |
-          node=false; py=false; pm=npm
+          node=false; py=false; pm=npm; bun=false
           if [ -f package.json ]; then
             node=true
             if [ -f bun.lock ] || [ -f bun.lockb ]; then pm=bun
             elif [ -f pnpm-lock.yaml ]; then pm=pnpm
             elif [ -f yarn.lock ]; then pm=yarn
             fi
+            # Scripts that call bun need it even without a bun lockfile (npm run test -> bun test).
+            if [ "$pm" != bun ] && git ls-files '*package.json' | xargs -r node -e 'process.exit(process.argv.slice(1).some(f=>Object.values(require(require("path").resolve(f)).scripts||{}).some(c=>/(^|[\s;&|(])bunx? /.test(c)))?0:1)'; then bun=true; fi
           fi
           pydirs=$(git ls-files | { grep -E '(^|/)(pyproject\.toml|requirements\.txt|setup\.py)$' || true; } | awk -F/ 'NF<=4' | xargs -r -n1 dirname | sort -u | tr '\n' ' ')
           if [ -n "$pydirs" ]; then py=true; fi
@@ -54,6 +56,7 @@ jobs:
             echo "pydirs=$pydirs"
             echo "node=$node"
             echo "pm=$pm"
+            echo "bun=$bun"
             echo "python=$py"
           } >> "$GITHUB_OUTPUT"
           echo "Stack: node=$node ($pm) python=$py" >> "$GITHUB_STEP_SUMMARY"
@@ -63,7 +66,7 @@ jobs:
         with:
           node-version: ${{ inputs.node_version }}
 
-      - if: steps.stack.outputs.pm == 'bun'
+      - if: steps.stack.outputs.pm == 'bun' || steps.stack.outputs.bun == 'true'
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
 
       - name: Install (Node)
