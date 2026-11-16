@@ -1,9 +1,15 @@
 # Reusable CodeQL scan. Picks the languages from the files in the repo,
 # always scans the workflows themselves, and uploads to code scanning.
+# A lane A pull request (docs, tests, copy only, see flisk-sh/gel `gel lane`) skips the scan.
 name: CodeQL (reusable)
 
 on:
   workflow_call:
+    inputs:
+      gel_ref:
+        description: Commit of flisk-sh/gel whose lane rules decide when the scan can be skipped
+        type: string
+        default: ce2ed6de26bcf578b72877654fd9db4bbfeacc5d
 
 permissions:
   contents: read
@@ -16,9 +22,27 @@ jobs:
       list: ${{ steps.find.outputs.list }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: github.event_name == 'pull_request'
+        with:
+          repository: flisk-sh/gel
+          ref: ${{ inputs.gel_ref }}
+          path: .gel-engine
+          persist-credentials: false
+      - name: Pick the lane
+        id: lane
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node .gel-engine/bin/gel.mjs lane --root . --base "$BASE_SHA"
       - id: find
         env:
           PRIVATE: ${{ github.event.repository.private }}
+          CODEQL: ${{ steps.lane.outputs.codeql }}
+          REASON: ${{ steps.lane.outputs.lane_reason }}
         run: |
           if [ "$PRIVATE" = "true" ]; then
             # Code scanning on a private repo needs GitHub Advanced Security.
@@ -26,8 +50,13 @@ jobs:
             echo "CodeQL skipped: private repo without Advanced Security" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
+          if [ "$CODEQL" = "false" ]; then
+            echo "list=[]" >> "$GITHUB_OUTPUT"
+            echo "CodeQL skipped: lane A ($REASON). It runs on lane B and C changes and on every push to the default branch." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           langs='"actions"'
-          files=$(git ls-files)
+          files=$(git ls-files)  # tracked files only, so .gel-engine is never counted
           if echo "$files" | grep -qE '\.(js|jsx|mjs|cjs|ts|tsx|mts|cts|vue|svelte)$'; then langs="$langs,\"javascript-typescript\""; fi
           if echo "$files" | grep -qE '\.py$'; then langs="$langs,\"python\""; fi
           echo "list=[$langs]" >> "$GITHUB_OUTPUT"
@@ -49,6 +78,8 @@ jobs:
         language: ${{ fromJSON(needs.languages.outputs.list) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           languages: ${{ matrix.language }}

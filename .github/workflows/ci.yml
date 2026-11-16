@@ -2,6 +2,11 @@
 # It finds the stack from the files in the repo and runs only what exists:
 #   Node: install, then the lint, typecheck, test and build scripts in package.json
 #   Python: install, then pytest when there are tests
+# How much runs follows the GEL lane of the change (flisk-sh/gel, `gel lane`):
+#   A docs, tests, copy: lint and typecheck, plus tests when a test file changed
+#   B product code: lint, typecheck, test, build
+#   C workflows, auth, payment, migrations, deploy config: B plus test:integration, test:e2e, integration, e2e
+# A push to the default branch, the schedule and a manual run have no diff to judge, so they run lane C.
 # A repo with neither passes with a note in the summary.
 name: CI (reusable)
 
@@ -19,9 +24,13 @@ on:
         type: string
         default: "3.12"
       scripts:
-        description: package.json scripts to run, in order, when they exist
+        description: package.json scripts to run, in order, when they exist. Empty means the lane decides.
         type: string
-        default: "lint typecheck test build"
+        default: ""
+      gel_ref:
+        description: Commit of flisk-sh/gel whose lane rules pick how much runs
+        type: string
+        default: ce2ed6de26bcf578b72877654fd9db4bbfeacc5d
 
 permissions:
   contents: read
@@ -36,6 +45,26 @@ jobs:
         working-directory: ${{ inputs.working_directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: flisk-sh/gel
+          ref: ${{ inputs.gel_ref }}
+          path: .gel-engine
+          persist-credentials: false
+
+      - name: Pick the lane
+        id: lane
+        working-directory: .
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # out of the workspace, so lint and tests never see the engine's files
+          mv .gel-engine "$RUNNER_TEMP/gel"
+          node "$RUNNER_TEMP/gel/bin/gel.mjs" lane --root "$GITHUB_WORKSPACE" --base "$BASE_SHA" | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Find the stack
         id: stack
@@ -94,7 +123,7 @@ jobs:
         if: steps.stack.outputs.node == 'true'
         env:
           PM: ${{ steps.stack.outputs.pm }}
-          SCRIPTS: ${{ inputs.scripts }}
+          SCRIPTS: ${{ inputs.scripts || steps.lane.outputs.scripts }}
         run: |
           # The root package plus every workspace package (package.json "workspaces").
           dirs=$(node -e '
@@ -138,6 +167,7 @@ jobs:
         if: steps.stack.outputs.python == 'true'
         env:
           PYDIRS: ${{ steps.stack.outputs.pydirs }}
+          PYTHON_TESTS: ${{ steps.lane.outputs.python_tests }}
         run: |
           python -m pip install --upgrade pip
           for d in $PYDIRS; do
@@ -149,7 +179,10 @@ jobs:
               cd "$d"
               if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
               if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e . || pip install .; fi
-              if ls -- tests test test_*.py */test_*.py >/dev/null 2>&1; then
+              if [ "$PYTHON_TESTS" = "false" ]; then
+                python -m compileall -q .
+                echo "- lane A: no Python test changed, compiled \`$d\` only" >> "$GITHUB_STEP_SUMMARY"
+              elif ls -- tests test test_*.py */test_*.py >/dev/null 2>&1; then
                 pip install pytest
                 pytest -q
                 echo "- ran pytest in \`$d\`" >> "$GITHUB_STEP_SUMMARY"
