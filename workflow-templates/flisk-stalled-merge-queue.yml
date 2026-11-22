@@ -22,8 +22,10 @@ jobs:
       actions: read
       pull-requests: write
       issues: write
-    uses: flisk-sh/.github/.github/workflows/stalled-merge-queue.yml@v1
-    # with:
+    # Pin a commit and pass the same one as scripts_ref: the script is read from that ref, not from the caller's repo.
+    uses: flisk-sh/.github/.github/workflows/stalled-merge-queue.yml@28a7fad96298d2f1f22ca839b208324e8841cdee
+    with:
+      scripts_ref: 28a7fad96298d2f1f22ca839b208324e8841cdee
     #   stale_minutes: 30
     # secrets:
     #   token: ${{ secrets.MERGE_QUEUE_TOKEN }}  # only if GITHUB_TOKEN cannot dequeue or enqueue

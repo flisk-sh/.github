@@ -28,9 +28,9 @@ on:
         type: boolean
         default: false
       scripts_ref:
-        description: Ref of flisk-sh/.github whose scripts/stalled-merge-queue.mjs runs. Keep it equal to the ref in `uses:`.
+        description: Commit or tag of flisk-sh/.github whose scripts/stalled-merge-queue.mjs runs. Required, and must equal the ref in `uses:`, so the script always matches the workflow.
         type: string
-        default: v1
+        required: true
     secrets:
       token:
         description: Token for the queue mutations, when the workflow's GITHUB_TOKEN cannot dequeue or enqueue. Defaults to github.token.
