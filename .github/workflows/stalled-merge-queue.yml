@@ -1,0 +1,81 @@
+# Reusable stalled merge queue detector: wakes a merge queue that GitHub stalled with entries but no batch building them.
+# On 2026-11-22 the entry at position 1 of flisk-sh/flisk left the queue for a merge conflict as the batch ahead of it
+# merged, and GitHub never started a batch for the next entry: 48 PRs sat QUEUED with no headCommit for six hours while
+# main was green (https://github.com/flisk-sh/flisk/issues/5105).
+#
+# A queue is stalled when it has entries, none has a headCommit, no merge_group run is queued or in progress and the
+# newest merge_group run is older than `stale_minutes`. The head entry is then fixed from its PR's mergeable state:
+#   CONFLICTING: dequeued, with a comment asking for a rebase; never re-queued, it would stall again
+#   MERGEABLE: dequeued and enqueued again, which makes GitHub start a batch
+# The dequeue mutation sometimes reports "Failed to remove PR from the merge queue" after removing the PR, so the queue
+# is read again and the PR's absence is what counts. The logic is scripts/stalled-merge-queue.mjs, with tests.
+#
+# Call it from workflow-templates/flisk-stalled-merge-queue.yml. GitHub's cron is best-effort (a `*/15` schedule ran every
+# 4-6 hours that day), so the caller also triggers it on merge_group and on a PR leaving the queue (pull_request
+# `dequeued`), the moments a stall can begin. No pull request code runs: only this repo's script is checked out.
+# The calling job must grant the permissions below, a reusable workflow can only lower them.
+name: Stalled merge queue (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      stale_minutes:
+        description: Minutes since the newest merge_group run before an idle queue counts as stalled
+        type: number
+        default: 30
+      dry_run:
+        description: Only log what would be done
+        type: boolean
+        default: false
+      scripts_ref:
+        description: Ref of flisk-sh/.github whose scripts/stalled-merge-queue.mjs runs. Keep it equal to the ref in `uses:`.
+        type: string
+        default: v1
+    secrets:
+      token:
+        description: Token for the queue mutations, when the workflow's GITHUB_TOKEN cannot dequeue or enqueue. Defaults to github.token.
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # One run per caller repo at a time; a run that would arrive while another is pending replaces it.
+  group: stalled-merge-queue-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  unstall:
+    name: Unstall merge queue
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read # list merge_group runs
+      pull-requests: write # dequeue and enqueue through GraphQL, comment on the head PR
+      issues: write # comment on the head PR
+    steps:
+      # Only the script, from this repo. Nothing of the caller's repo or of a pull request is checked out.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: flisk-sh/.github
+          ref: ${{ inputs.scripts_ref }}
+          sparse-checkout: scripts/stalled-merge-queue.mjs
+          sparse-checkout-cone-mode: false
+          path: .flisk-shared
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      - name: Unstall merge queue
+        env:
+          GH_TOKEN: ${{ secrets.token || github.token }}
+          REPO: ${{ github.repository }}
+          STALE_MINUTES: ${{ inputs.stale_minutes }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=(--repo "$REPO" --stale-minutes "$STALE_MINUTES")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          node .flisk-shared/scripts/stalled-merge-queue.mjs "${args[@]}" | tee -a "$GITHUB_STEP_SUMMARY"

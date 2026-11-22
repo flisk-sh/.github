@@ -1,0 +1,29 @@
+name: Unstall merge queue
+
+# Wakes a merge queue that stalled with entries but no batch building them. GitHub's cron is best-effort, so it also
+# runs when a batch starts and when a PR leaves the queue. Needs a merge queue on the default branch.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  merge_group:
+  pull_request:
+    types: [dequeued]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unstall:
+    # a fork's PR gets a read-only token, and the schedule covers it
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
+      issues: write
+    uses: flisk-sh/.github/.github/workflows/stalled-merge-queue.yml@v1
+    # with:
+    #   stale_minutes: 30
+    # secrets:
+    #   token: ${{ secrets.MERGE_QUEUE_TOKEN }}  # only if GITHUB_TOKEN cannot dequeue or enqueue

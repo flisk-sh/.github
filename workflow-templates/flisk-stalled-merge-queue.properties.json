@@ -1,0 +1,6 @@
+{
+  "name": "Flisk stalled merge queue",
+  "description": "Wake a merge queue that GitHub stalled with entries but no batch building them: dequeue a conflicting head with a rebase request, re-queue a mergeable one.",
+  "iconName": "octicon git-merge",
+  "categories": ["Continuous integration", "Automation"]
+}
