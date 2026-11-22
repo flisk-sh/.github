@@ -206,6 +206,21 @@ jobs:
             lines.push('<summary>Copy it into your portfolio or README</summary>');
             lines.push('', '```markdown', copySnippet(author, mergedCount), '```');
             lines.push('', '</details>');
+            // Every outside contributor has a page on badges.flisk.si (flisk-sh/badges) with their level,
+            // belt and seat across all flisk-sh repos. The site rebuilds every 30 minutes, so a first
+            // PR's page may not exist yet: the card is shown only when it is there, never as a broken image.
+            if (pr.user.id) {
+              const badgePage = `https://badges.flisk.si/${author.toLowerCase()}-${pr.user.id}/`;
+              let hasCard = false;
+              try {
+                hasCard = (await fetch(`${badgePage}card.svg`, { method: 'HEAD', signal: AbortSignal.timeout(5000) })).ok;
+              } catch (e) {
+                core.info(`No badge card for ${author} yet: ${e.message}`);
+              }
+              lines.push('', '### 🪪 Your badge page');
+              if (hasCard) lines.push('', `[![${author} on Flisk badges](${badgePage}card.svg)](${badgePage})`);
+              lines.push('', `[Your page](${badgePage}) shows your level, belt and founding seat across every flisk-sh repo, with badges to put in your README. ${hasCard ? 'It updates every 30 minutes.' : 'It appears within 30 minutes of this merge.'}`);
+            }
             lines.push('', `### 🔒 Unlock your numbered ${badgeName} badge`);
             lines.push('', `[![${badgeName} badge, locked](${lockedBadgeUrl})](${discordInvite})`);
             lines.push('', founding
