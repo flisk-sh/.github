@@ -4,7 +4,7 @@
 // dequeue is confirmed by re-reading the queue, not by trusting the mutation's result.
 import assert from "node:assert/strict";
 import test from "node:test";
-import { applyPlan, confirmDequeued, conflictComment, DEQUEUE_MUTATION, dequeuePullRequest, ENQUEUE_MUTATION, enqueuePullRequest, headPlan, listMergeGroupRuns, listQueue, parseArgs, QUEUE_QUERY, stalledQueue, STALE_MS } from "./stalled-merge-queue.mjs";
+import { applyPlan, confirmDequeued, conflictComment, DEQUEUE_MUTATION, dequeuePullRequest, ENQUEUE_MUTATION, enqueuePullRequest, headPlan, listMergeGroupRuns, listQueue, parseArgs, QUEUE_QUERY, stalledQueue, stallSummary, STALE_MS } from "./stalled-merge-queue.mjs";
 
 const NOW = Date.parse("2026-11-22T10:06:00Z");
 
@@ -80,6 +80,23 @@ test("stalledQueue honours a custom stale threshold", () => {
 	assert.equal(stalledQueue({ entries: INCIDENT_ENTRIES, runs, now: NOW }), null);
 	assert.equal(stalledQueue({ entries: INCIDENT_ENTRIES, runs, now: NOW, staleMs: 10 * 60 * 1000 }).pullRequest.number, 4792);
 	assert.equal(STALE_MS, 30 * 60 * 1000);
+});
+
+// The API's pullRequest field is nullable: an entry whose pull request cannot be read is still picked as the stalled
+// head, so the log path in main must not dereference it before headPlan answers "no action".
+test("stalledQueue can return a head with no pull request, and stallSummary describes it without crashing", () => {
+	const orphan = entry(1, 0, { pullRequest: null });
+	assert.equal(stalledQueue({ entries: [orphan, entry(2, 4792)], runs: INCIDENT_RUNS, now: NOW }), orphan);
+	assert.equal(headPlan(orphan.pullRequest), null);
+	assert.equal(stallSummary(orphan), "entry at position 1, pull request unknown");
+});
+
+test("stallSummary names the PR, its position and its mergeable state when there is one", () => {
+	assert.equal(stallSummary(entry(2, 4792)), "#4792 at position 2, mergeable=MERGEABLE");
+	assert.equal(
+		stallSummary(entry(3, 4835, { pullRequest: { number: 4835, id: "PR_4835", mergeable: "UNKNOWN", state: "OPEN" } })),
+		"#4835 at position 3, mergeable=UNKNOWN",
+	);
 });
 
 test("headPlan dequeues a CONFLICTING head with a PR comment and never re-queues it", () => {

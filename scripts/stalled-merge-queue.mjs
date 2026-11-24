@@ -36,8 +36,16 @@ export function stalledQueue({ entries, runs, now, staleMs = STALE_MS }) {
 	return entries.reduce((head, entry) => (entry.position < head.position ? entry : head));
 }
 
+// A one-line description of a stalled head entry for the log. The API's pullRequest field is nullable, and an entry
+// whose pull request cannot be read still blocks the queue: it is reported and left alone, never crashed on.
+export function stallSummary(head) {
+	const pr = head.pullRequest;
+	return pr ? `#${pr.number} at position ${head.position}, mergeable=${pr.mergeable}` : `entry at position ${head.position}, pull request unknown`;
+}
+
 // What to do with the stalled head entry, from its PR's mergeable state. CONFLICTING is dequeued with a comment and
-// never re-queued; MERGEABLE is re-queued; anything else (UNKNOWN, closed PR) is left alone and only logged.
+// never re-queued; MERGEABLE is re-queued; anything else (UNKNOWN, closed PR, unreadable PR) is left alone and only
+// logged.
 export function headPlan(pullRequest) {
 	switch (pullRequest?.mergeable) {
 		case "CONFLICTING":
@@ -168,9 +176,9 @@ function main(argv) {
 		return 0;
 	}
 	const plan = headPlan(head.pullRequest);
-	console.log(`merge queue on ${branch} stalled: #${head.pullRequest.number} at position ${head.position}, mergeable=${head.pullRequest.mergeable}`);
+	console.log(`merge queue on ${branch} stalled: ${stallSummary(head)}`);
 	if (!plan) {
-		console.log(`no action for mergeable=${head.pullRequest.mergeable}`);
+		console.log(`no action for mergeable=${head.pullRequest?.mergeable ?? "unknown"}`);
 		return 0;
 	}
 	for (const line of applyPlan({ repo, branch, beforeEntries: entries, head, plan, dryRun })) console.log(line);
